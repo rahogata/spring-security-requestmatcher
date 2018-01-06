@@ -16,9 +16,11 @@ buildscript {
 
 plugins {
 	id 'java'
+	id 'war'
 	id 'eclipse-wtp'
 	id 'checkstyle'
 }
+apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
 
@@ -36,7 +38,7 @@ dependencies {
     // tag::security[]
 	compile("org.springframework.boot:spring-boot-starter-security:$rootProject.ext.springBootVersion")
 	// end::security[]
-	testCompile ("org.projectlombok:lombok:$rootProject.ext.lombokVersion")
+	compileOnly("org.projectlombok:lombok:$rootProject.ext.lombokVersion")
 	testCompile ("org.springframework.boot:spring-boot-starter-test:$rootProject.ext.springBootVersion")
 	// tag::junit[]
 	testCompile ("junit:junit:$rootProject.ext.junitVersion")

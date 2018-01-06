@@ -11,21 +11,24 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+/**
+ * Configures application security.
+ */
 @Configuration
 @EnableWebSecurity
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${secure.requests.post}")
     private String[] securedPostUris;
-    
+
     @Value("${secure.requests.get}")
     private String[] securedGetUris;
-    
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("rahogata").password("secret123").authorities(Collections.emptyList());
     }
-    
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
@@ -34,12 +37,14 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't create
                                                                                                          // session
             .and().headers().cacheControl(); // disable page caching
-        if(securedPostUris.length != 0) {
-            httpSecurity.requestMatchers().antMatchers(HttpMethod.POST, securedPostUris).and().authorizeRequests().anyRequest().authenticated().and().httpBasic();
+        if (securedPostUris.length != 0) {
+            httpSecurity.requestMatchers().antMatchers(HttpMethod.POST, securedPostUris).and().authorizeRequests()
+                .anyRequest().authenticated().and().httpBasic();
         }
-        
-        if(securedGetUris.length != 0) {
-            httpSecurity.requestMatchers().antMatchers(HttpMethod.GET, securedGetUris).and().authorizeRequests().anyRequest().authenticated().and().httpBasic();
+
+        if (securedGetUris.length != 0) {
+            httpSecurity.requestMatchers().antMatchers(HttpMethod.GET, securedGetUris).and().authorizeRequests()
+                .anyRequest().authenticated().and().httpBasic();
         }
     }
 }

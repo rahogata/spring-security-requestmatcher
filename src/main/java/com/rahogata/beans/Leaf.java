@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * A leaf bean.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
