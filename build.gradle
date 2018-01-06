@@ -1,0 +1,48 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.9.RELEASE'
+		junitVersion = '4.12'
+		lombokVersion = '1.16.18'
+		gradleDependencyPluginVersion = '0.6.1.RELEASE'
+	}
+	
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$rootProject.ext.springBootVersion")
+    }
+}
+
+plugins {
+	id 'java'
+	id 'eclipse-wtp'
+	id 'checkstyle'
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// tag::jetty[]
+    compile("org.springframework.boot:spring-boot-starter-web:$rootProject.ext.springBootVersion") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty:$rootProject.ext.springBootVersion")
+    // end::jetty[]
+    // tag::security[]
+	compile("org.springframework.boot:spring-boot-starter-security:$rootProject.ext.springBootVersion")
+	// end::security[]
+	testCompile ("org.projectlombok:lombok:$rootProject.ext.lombokVersion")
+	testCompile ("org.springframework.boot:spring-boot-starter-test:$rootProject.ext.springBootVersion")
+	// tag::junit[]
+	testCompile ("junit:junit:$rootProject.ext.junitVersion")
+	// end::junit[]
+}
+    
+checkstyle {
+    configFile = new File(rootDir, "config/checkstyle/checkstyle.xml")
+}
